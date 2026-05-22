@@ -268,6 +268,7 @@
       background: linear-gradient(135deg, rgba(108, 99, 255, 0.04) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.25s;
+      pointer-events: none;
     }
 
     .app-card:hover {
@@ -552,13 +553,13 @@
               <span class="tag">android</span>
             </div>
             <a href="./mind-defender/privacy-policy.html"
-              style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-top:10px;display:inline-block;"
+              style="cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-top:10px;display:inline-block;position:relative;z-index:10;"
               onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">privacy policy
               ↗</a>
           </div>
           <div style="flex-shrink:0;">
             <a href="https://play.google.com/store/apps/details?id=com.victorvladi.minddefender" target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer" style="cursor:pointer;display:block;">
               <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
                 alt="Get it on Google Play" style="height:56px;width:auto;display:block;">
             </a>
