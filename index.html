@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gugus Factory</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1c1c28;
+      --border: rgba(255, 255, 255, 0.07);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --text: #e8e8f0;
+      --muted: #7a7a90;
+      --accent: #6c63ff;
+      --accent2: #ff6b9d;
+      --green: #4ade80;
+      --mono: 'Space Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(108, 99, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108, 99, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.25;
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--accent);
+      top: -200px;
+      right: -100px;
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: var(--accent2);
+      bottom: 10%;
+      left: -150px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(16px);
+    }
+
+    nav .inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-contact {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-contact:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(108, 99, 255, 0.07);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 7rem 0 5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(108, 99, 255, 0.1);
+      border: 1px solid rgba(108, 99, 255, 0.25);
+      padding: 5px 12px;
+      border-radius: 4px;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero h1 {
+      font-family: var(--mono);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .line2 {
+      display: block;
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 0.65em;
+      margin-top: 0.4rem;
+      font-style: italic;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 13px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+
+    .hero-cta:hover {
+      background: #7b74ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(108, 99, 255, 0.35);
+    }
+
+    .hero-cta svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ─── SECTION TITLE ─── */
+    .section-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── APPS ─── */
+    .apps {
+      padding: 3rem 0 6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-card {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: start;
+      gap: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .app-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .app-card:hover::before {
+      opacity: 1;
+    }
+
+    .app-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1a1a2e, #2d2d4e);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      flex-shrink: 0;
+    }
+
+    .app-info {
+      min-width: 0;
+    }
+
+    .app-name {
+      font-family: var(--mono);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .app-tagline {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .app-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 4px;
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .tag.accent {
+      color: var(--accent);
+      border-color: rgba(108, 99, 255, 0.3);
+      background: rgba(108, 99, 255, 0.07);
+    }
+
+    .tag.live {
+      color: var(--green);
+      border-color: rgba(74, 222, 128, 0.3);
+      background: rgba(74, 222, 128, 0.07);
+    }
+
+    .tag.wip {
+      color: #f59e0b;
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.07);
+    }
+
+    .app-store-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    .store-link {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .store-link:hover {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(74, 222, 128, 0.06);
+    }
+
+    .store-link svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .coming-soon-badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      padding: 7px 14px;
+      border-radius: 8px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer .inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-left {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-left strong {
+      color: var(--text);
+    }
+
+    .footer-email {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-email:hover {
+      color: #7b74ff;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .hero {
+        padding: 4.5rem 0 3.5rem;
+      }
+
+      .app-card {
+        grid-template-columns: 64px 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .app-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 14px;
+        font-size: 1.8rem;
+      }
+
+      .app-store-btn {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-tag {
+      animation: fadeUp 0.5s ease both;
+      animation-delay: 0.1s;
+    }
+
+    .hero h1 {
+      animation: fadeUp 0.5s ease both;
+      animation-delay: 0.2s;
+    }
+
+    .hero-desc {
+      animation: fadeUp 0.5s ease both;
+      animation-delay: 0.3s;
+    }
+
+    .hero-cta {
+      animation: fadeUp 0.5s ease both;
+      animation-delay: 0.4s;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <nav>
+    <div class="inner">
+      <a class="nav-logo" href="#"><span>// </span>gugus factory</a>
+      <a class="nav-contact" href="mailto:gugus.factory@gmail.com">gugus.factory@gmail.com</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-tag">indie game studio</div>
+        <h1>
+          Gugus Factory
+          <span class="line2">// building small games/apps, one tap at a time</span>
+        </h1>
+        <p class="hero-desc">
+          Solo indie developer crafting hyper-casual Android games/apps.
+          Clean mechanics, zero fluff
+        </p>
+        <a href="mailto:gugus.factory@gmail.com" class="hero-cta">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          get in touch
+        </a>
+      </div>
+    </section>
+
+    <section class="apps">
+      <div class="container">
+        <p class="section-title">apps &amp; games</p>
+
+        <!-- Mind Defender -->
+        <a class="app-card" href="https://play.google.com/store/apps/details?id=com.victorvladi.minddefender"
+          target="_blank" rel="noopener noreferrer">
+          <div class="app-icon" style="padding:0; overflow:hidden; background:none; border:none;">
+            <img src="./mind-defender/icon.png" alt="Mind Defender icon"
+              style="width:80px;height:80px;object-fit:cover;border-radius:18px;display:block;">
+          </div>
+          <div class="app-info">
+            <div class="app-name">Mind Defender</div>
+            <div class="app-tagline">Endless wave survival — tap to destroy enemies before they reach your core. How
+              long can you hold the line?</div>
+            <div class="app-tags">
+              <span class="tag live">● live</span>
+              <span class="tag accent">hyper-casual</span>
+              <span class="tag">flutter</span>
+              <span class="tag">flame</span>
+              <span class="tag">android</span>
+            </div>
+          </div>
+          <div class="app-store-btn">
+            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+              alt="Get it on Google Play" style="height:56px;width:auto;display:block;">
+          </div>
+        </a>
+
+        <!-- Placeholder slot -->
+        <div class="app-card" style="cursor:default;">
+          <div class="app-icon" style="background: var(--surface2); font-size:1.5rem; color: var(--muted);">+</div>
+          <div class="app-info">
+            <div class="app-name" style="color: var(--muted);">Next game</div>
+            <div class="app-tagline" style="color: #4a4a60;">Something new is being built in the factory...</div>
+            <div class="app-tags">
+              <span class="tag wip">⟳ in development</span>
+            </div>
+          </div>
+          <div class="app-store-btn">
+            <div class="coming-soon-badge">coming soon</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="inner">
+      <div class="footer-left">
+        <strong>Gugus Factory</strong> &nbsp;·&nbsp; indie games &nbsp;·&nbsp; Android
+      </div>
+      <a class="footer-email" href="mailto:gugus.factory@gmail.com">gugus.factory@gmail.com</a>
+    </div>
+  </footer>
+
+</body>
+
+</html>
